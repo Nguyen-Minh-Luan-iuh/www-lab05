@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Add job</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+</head>
+
+<body>
+    <div class="container">
+        <form method="post" th:action="@{/companies/{companyId}/job}" th:object="${job}">
+            <h1 class="text-center">Add job</h1>
+            <input type="hidden" name="companyId" th:value="${companyId}" />
+
+            <div class="row border-bottom">
+                <div class="col-4">
+                    <div class="form-group my-3">
+                        <label class="form-label">Job name</label>
+                        <input type="text" class="form-control" placeholder="Enter job name" th:field="*{jobName}" />
+                    </div>
+                    <div class="form-group mb-3">
+                        <label class="form-label">Job description</label>
+                        <textarea type="text" class="form-control" placeholder="Enter job description"
+                            th:field="*{jobDesc}"></textarea>
+                    </div>
+                </div>
+
+                <div class="col-8">
+                    <div class="row">
+                        <th:block th:each="jobSkill, stat : ${job.jobSkills}">
+                            <div class="form-inline" th:id="'divSkill' + ${stat.index}">
+                                <input type="hidden" name="skillId" th:value="${jobSkill.skill.id}" />
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Skill:</label>
+                                        <select class="form-select" name="skills">
+                                            <th:block th:each="skill : ${skills}">
+                                                <option th:text="${skill.skillName}" th:value="${skill.id}"></option>
+                                            </th:block>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>Skill level:</label>
+                                        <select class="form-select" name="skillLevel">
+                                            <th:block th:each="level : ${SkillLevels}">
+                                                <option th:value="${level}" th:text="${level.name().toLowerCase()}">
+                                                </option>
+                                            </th:block>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </th:block>
+
+                        <!--                        <div class="form-inline pb-2 border-bottom border-4"-->
+                        <!--                            th:id="'divSkill' + ${#lists.size(job.jobSkills)}">-->
+                        <!--                            <input type="hidden" name="skillId" th:value="0" />-->
+                        <!--                        </div>-->
+                    </div>
+
+                    <div class="mt-3">
+                        <!--                            <button type="button" class="btn btn-secondary" onclick="addSkill()">Add more skill</button>-->
+                        <button class="btn btn-primary w-100">Add more skill</button>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+    <div class="row mt-2 justify-content-center">
+        <div class="col-3">
+            <button class="btn btn-primary w-100">Add job</button>
+        </div>
+    </div>
+
+    </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+        crossorigin="anonymous"></script>
+
+    <script th:src="@{/job_form.js}"></script>
+</body>
+
+</html>
